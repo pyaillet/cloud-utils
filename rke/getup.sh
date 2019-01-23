@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+ansible-playbook create-infra.yml
+
+ansible-playbook -i inventory.cfg setup-nodes.yml
+
+ansible-playbook -i inventory.cfg setup-controller-0.yml

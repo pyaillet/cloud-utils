@@ -1,0 +1,8 @@
+instance_user: ubuntu
+rancher_version: "v0.1.15"
+docker_version: "17.03.3~ce-0~ubuntu-xenial"
+kubectl_version: "v1.11.2"
+vm_preemptible: "true"
+gcp_zone: "europe-west1-c"
+pod_cidr: "192.168.0.0/16"
+worker_count: "3"

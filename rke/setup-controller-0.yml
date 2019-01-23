@@ -1,0 +1,42 @@
+- hosts:
+  - controller.0
+  remote_user: "{{ instance_user }}"
+  vars:
+    ansible_ssh_private_key_file: "./kube_rsa"
+  vars_files:
+    - common-vars.yml
+  gather_facts: no
+  tasks:
+  - name: Ensures .ssh dir exists
+    file: path=/home/{{ instance_user }}/.ssh state=directory
+  - name: copy ssh private key
+    copy:
+      src: ./kube_rsa
+      dest: /home/{{ instance_user }}/.ssh/id_rsa
+  - name: copy ssh public key
+    copy:
+      src: ./kube_rsa.pub
+      dest: /home/{{ instance_user }}/.ssh/id_rsa.pub
+  - name: copy rke cluster config
+    template:
+      src: ./rancher/cluster.yml.j2
+      dest: /home/{{ instance_user }}/cluster.yml
+  - name: Test rke already run
+    systemd: 
+      name: kubelet
+    register: kubelet_status
+  - name: Init cluster
+    command: rke up
+    when: kubelet_status.status["SubState"] != "running"
+  - name: fetch kubeconfig
+    fetch:
+      src: /home/{{ instance_user }}/kube_config_cluster.yml
+      dest: kubeconfig.yml
+      flat: yes
+  - name: dowload kubectl binary
+    become: yes
+    get_url: 
+      url: https://storage.googleapis.com/kubernetes-release/release/{{ kubectl_version }}/bin/linux/amd64/kubectl
+      dest: /usr/local/bin/kubectl
+      mode: 0755
+      

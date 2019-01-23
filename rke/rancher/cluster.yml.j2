@@ -1,0 +1,20 @@
+nodes:
+    - address: 10.240.0.10
+      user: {{ instance_user }}
+      role:
+        - controlplane
+        - etcd
+      port: 22
+{% for worker_rank in range(worker_count|int) %}
+    - address: 10.240.0.2{{ worker_rank }}
+      user: {{ instance_user }}
+      role:
+        - worker
+{% endfor %}
+
+# If set to true, RKE will not fail when unsupported Docker version are found
+ignore_docker_version: false
+
+# Cluster level SSH private key
+# Used if no ssh information is set for the node
+ssh_key_path: ~/.ssh/id_rsa
