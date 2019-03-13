@@ -20,7 +20,7 @@ curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s htt
 sudo chmod +x kubectl
 sudo mv kubectl /usr/local/bin/kubectl
 
-curl -s https://api.github.com/repos/mozilla/geckodriver/releases/latest \
+curl -s https://api.github.com/repos/kubernetes/minikube/releases/latest \
   | grep browser_download_url \
   | grep linux-amd64\" \
   | cut -d '"' -f 4 \
