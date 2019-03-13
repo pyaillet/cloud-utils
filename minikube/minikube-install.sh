@@ -39,6 +39,6 @@ touch \$HOME/.kube/config
 
 export KUBECONFIG=\$HOME/.kube/config
 
-sudo -E minikube start --bootstrapper localkube --vm-driver=none
+sudo -E minikube start --vm-driver=none
 EOF
 chmod +x deploy-minikube.sh
