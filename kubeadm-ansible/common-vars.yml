@@ -1,7 +1,7 @@
 instance_user: ubuntu
-docker_version: "17.03.3~ce-0~ubuntu-xenial"
-kubernetes_version_ubuntu: "1.11.6-00"
-kubernetes_version_kubeadm: "v1.11.6"
+docker_version: "18.06.3~ce~3-0~ubuntu"
+kubernetes_version_ubuntu: "1.13.4-00"
+kubernetes_version_kubeadm: "v1.13.4"
 vm_preemptible: "true"
 gcp_zone: "europe-west1-c"
 pod_cidr: "192.168.0.0/16"
