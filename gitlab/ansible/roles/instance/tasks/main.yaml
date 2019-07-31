@@ -1,0 +1,35 @@
+- name: test instance existence
+  shell: |
+    gcloud compute instances list \
+    --filter="name:gitlab" \
+    --format="get(name)"
+  register: vm
+- name: create instance
+  shell: |
+    gcloud compute instances create \
+    --preemptible \
+    --image-project={{ image_project }} \
+    --image-family={{ image_family }} \
+    --machine-type={{ machine_type }} \
+    --metadata=sshKeys="ubuntu:{{lookup('file', 'files/id_ssh_rsa.pub')}}" \
+    --zone {{ gcp_zone }} \
+    {{ vm_name }}
+  when: vm.stdout.find('gitlab') == -1
+
+- name: register vm address
+  shell: |
+    gcloud compute instances list \
+    --filter="name:{{ vm_name }}" \
+    --format="get(networkInterfaces.accessConfigs[0].natIP)"
+  register:
+    address
+
+- name: wait for SSH to come up
+  wait_for: host={{ address.stdout }} port=22 delay=10 timeout=60
+
+- name: Add host to groupname
+  add_host:
+    hostname: "{{ address.stdout }}"
+    groupname: "{{ vm_group }}"
+    ansible_ssh_private_key_file: "files/id_ssh_rsa"
+    ansible_user: ubuntu

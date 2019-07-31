@@ -1,5 +1,6 @@
 *.tfstate
 *.tfstate.backup
-kube-rsa
-kube-rsa.pub
 .terraform/
+*.retry
+*_rsa*
+*-rsa*

@@ -1,0 +1,10 @@
+gcp_project: etendre-k8s-gdglille
+gcp_cred_kind: serviceaccount
+gcp_cred_file: 
+gcp_zone: "europe-west1-c"
+gcp_region: "europe-west1"
+image_project: "ubuntu-os-cloud"
+image_family: "ubuntu-1804-lts"
+machine_type: "n1-standard-2"
+vm_name: gitlab
+vm_group: gitlab

@@ -1,0 +1,8 @@
+- name: Check that key pair exists
+  stat:
+    path: ./files/id_ssh_rsa
+  register: stat_result
+- openssh_keypair:
+    path: ./files/id_ssh_rsa
+  when: stat_result.stat.exists == False 
+  register: ssh

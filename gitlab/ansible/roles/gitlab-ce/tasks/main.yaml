@@ -1,0 +1,11 @@
+- name: create dir for gitlab-ce
+  file:
+    path: /home/ubuntu/gitlab-ce
+    state: directory
+- name: sending docker-compose template
+  template:
+    src: docker-compose.yaml.j2
+    dest: /home/ubuntu/gitlab-ce/docker-compose.yaml
+    mode: '0644'
+- name: launching gitlab-ce with docker-compose
+  shell: docker-compose -f /home/ubuntu/gitlab-ce/docker-compose.yaml up -d
